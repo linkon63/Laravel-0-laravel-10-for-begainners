@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h1>Home Laravel</h1>
+    <h1>Home Laravel Start Routing</h1>
 </body>
 
 </html>
