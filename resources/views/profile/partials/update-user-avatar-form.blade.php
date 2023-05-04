@@ -3,11 +3,12 @@
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             User Avatar
         </h2>
-
+        <img width="50" height="50" class="rounded-full" src="{{"/storage/$user->avatar"}}" alt="avatar image" />
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             Add or update user avatar
         </p>
     </header>
+
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
@@ -19,7 +20,7 @@
     </div>
     @endif
 
-    <form method="post" action="{{route('profile.avatar')}}" class="mt-6 space-y-6" enctype="multipart/form-data">
+    <form method="post" action="{{route('profile.avatar')}}" class="mt-6 space-y-6=" enctype="multipart/form-data">
         @method('patch')
         @csrf
         <div>
