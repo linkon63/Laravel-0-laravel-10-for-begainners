@@ -5,6 +5,7 @@ use App\Http\Controllers\Profile\AvatarController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use OpenAI\Laravel\Facades\OpenAI;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +46,21 @@ Route::get('/openai', function () {
 });
 
 require __DIR__ . '/auth.php';
+
+// git hub
+Route::get('/auth/redirect', function () {
+    // dd("auth hit");
+    return Socialite::driver('github')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('github')->user();
+
+    // $user->token
+});
+
+Route::get('/ticket/create', function () {
+
+    // dd('ticket');
+    return view('ticket.create');
+});
