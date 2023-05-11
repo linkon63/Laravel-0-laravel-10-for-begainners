@@ -6,6 +6,8 @@ use App\Models\Ticket;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TicketController extends Controller
 {
@@ -22,7 +24,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        return view('ticket.create'); 
+        return view('ticket.create');
     }
 
     /**
@@ -30,7 +32,31 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request)
     {
-        //
+
+        // step 1 : first create the ticket 
+        $ticket = Ticket::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'user_id' => auth()->id(),
+        ]);
+
+        // step 2 :  checking file is there or not
+        if ($request->file('attachment')) {
+            $ext = $request->file('attachment')->extension();
+            $contents = file_get_contents($request->file('attachment'));
+            $fileName = Str::random(25);
+            $path = "attachments/$fileName.$ext"; // "attachment/$fileName.$ext"
+            Storage::disk('public')->put($path, $contents);
+
+            // step 3 : if there is file update the ticket with file path
+            $ticket->update(['attachment' => $path]);
+        }
+
+        
+
+
+
+        return response($ticket);
     }
 
     /**

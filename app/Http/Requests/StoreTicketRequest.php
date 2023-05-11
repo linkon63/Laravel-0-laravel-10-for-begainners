@@ -22,7 +22,9 @@ class StoreTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title'       => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'attachment'  => ['sometimes', 'file', 'mimes:jpg,jpeg,png,pdf'],
         ];
     }
 }
