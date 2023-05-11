@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Profile\AvatarController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use OpenAI\Laravel\Facades\OpenAI;
@@ -47,17 +49,44 @@ Route::get('/openai', function () {
 
 require __DIR__ . '/auth.php';
 
-// git hub
-Route::get('/auth/redirect', function () {
-    // dd("auth hit");
-    return Socialite::driver('github')->redirect();
-});
 
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('github')->user();
+Route::get('/auth/redirect', [LoginController::class, 'redirectToProvider'])->name('github');
+Route::get('/github/auth/callback', [LoginController::class, 'handleProviderCallback']);
 
-    // $user->token
-});
+// github 
+// Route::get('/auth/redirect', function () {
+//     // dd("Hello");
+//     return Socialite::driver('github')->redirect();
+// });
+
+// Route::get('/auth/callback', function () {
+//     // dd('redirect user login');
+//     $user = Socialite::driver('github')->user();
+//     $user = User::updateOrCreate(['email' => $user->email], [
+//         'name' => $user->name,
+//         'password' => 'password',
+//     ]);
+
+
+//     Auth::login($user);
+
+//     return redirect('/dashboard');
+
+
+//     // $user = User::updateOrCreate([
+//     //     'github_id' => $githubUser->id,
+//     // ], [
+//     //     'name' => $githubUser->name,
+//     //     'email' => $githubUser->email,
+//     //     'github_token' => $githubUser->token,
+//     //     'github_refresh_token' => $githubUser->refreshToken,
+//     // ]);
+
+//     // Auth::login($user);
+
+//     // return redirect('/dashboard');
+// });
+
 
 Route::get('/ticket/create', function () {
 
