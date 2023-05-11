@@ -17,6 +17,10 @@ class TicketController extends Controller
     public function index()
     {
         //
+        $user    = auth()->user();
+        $tickets = Ticket::all();
+        // $tickets = $user->isAdmin ? Ticket::latest()->get() : $user->tickets;
+        return view('ticket.index', compact('tickets'));
     }
 
     /**
@@ -52,11 +56,12 @@ class TicketController extends Controller
             $ticket->update(['attachment' => $path]);
         }
 
-        
 
 
 
-        return response($ticket);
+
+        // return response()->redirect(route('ticket.index'));
+        return redirect(route('ticket.index'));
     }
 
     /**
@@ -64,7 +69,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        return view('ticket.show', compact('ticket'));
     }
 
     /**
@@ -89,5 +94,8 @@ class TicketController extends Controller
     public function destroy(Ticket $ticket)
     {
         //
+
+        $ticket->delete();
+        return redirect(route('ticket.index'));
     }
 }

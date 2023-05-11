@@ -19,7 +19,7 @@
             </div>
 
             <div class="flex flex-col justify-center">
-                <a href="{{route('ticket.create')}}" class="ml-3 bg-white p-2 rounded">
+                <a href="{{route('ticket.index')}}" class="ml-3 bg-white p-2 rounded">
                 <!-- <a href="/ticket/create" class="ml-3 bg-white p-2 rounded"> -->
                     Support Ticket
                 </a>
