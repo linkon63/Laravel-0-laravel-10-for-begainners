@@ -16,11 +16,17 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+
         $user    = auth()->user();
-        $tickets = Ticket::all();
-        // $tickets = $user->isAdmin ? Ticket::latest()->get() : $user->tickets;
+        $tickets = $user->isAdmin ? Ticket::latest()->get() : $user->tickets;
+        // dd($tickets);
         return view('ticket.index', compact('tickets'));
+
+        // ticket show all 
+        // $user    = auth()->user();
+        // $tickets = Ticket::all();
+        // // $tickets = $user->isAdmin ? Ticket::latest()->get() : $user->tickets;
+        // return view('ticket.index', compact('tickets'));
     }
 
     /**
@@ -94,11 +100,11 @@ class TicketController extends Controller
         //     $ticket->user->notify(new TicketUpdatedNotification($ticket));
         // }
 
-        // if ($request->file('attachment')) {
-        //     Storage::disk('public')->delete($ticket->attachment);
-        //     $this->storeAttachment($request, $ticket);
-        // }
-        // return redirect(route('ticket.index'));
+        if ($request->file('attachment')) {
+            Storage::disk('public')->delete($ticket->attachment);
+            $this->storeAttachment($request, $ticket);
+        }
+        return redirect(route('ticket.index'));
     }
 
     /**
@@ -110,5 +116,16 @@ class TicketController extends Controller
 
         $ticket->delete();
         return redirect(route('ticket.index'));
+    }
+
+    // Store attachment file for refactoring
+    protected function storeAttachment($request, $ticket)
+    {
+        $ext      = $request->file('attachment')->extension();
+        $contents = file_get_contents($request->file('attachment'));
+        $filename = Str::random(25);
+        $path     = "attachments/$filename.$ext";
+        Storage::disk('public')->put($path, $contents);
+        $ticket->update(['attachment' => $path]);
     }
 }

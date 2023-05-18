@@ -18,8 +18,8 @@ class LoginController extends Controller
     public function handleProviderCallback()
     {
         // dd('callback working');
-        $user = Socialite::driver('github')->user();
-        // $user = Socialite::driver('github')->stateless()->user();
+        // $user = Socialite::driver('github')->user();
+        $user = Socialite::driver('github')->stateless()->user();
         // dd($user);
         // Do something with the user data
         $user = User::firstOrCreate(['email' => $user->email], [
