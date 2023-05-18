@@ -19,3 +19,8 @@ status_changed_by_id {nullable}
 body(text) {required}
 user_id {required} filled by laravel
 ticket_id {required} filled by laravel
+
+# add ticket
+# edit ticket
+# admin can resolve ticket or reject ticket
+# added notification while status change of ticket
