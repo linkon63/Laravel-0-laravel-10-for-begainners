@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use App\Notifications\TicketUpdateNotification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -95,16 +96,28 @@ class TicketController extends Controller
     {
         $ticket->update($request->except('attachment'));
 
-        // if ($request->has('status')) {
-        //     // $user = User::find($ticket->user_id);
-        //     $ticket->user->notify(new TicketUpdatedNotification($ticket));
-        // }
+        if ($request->has('status')) {
+            // $user = User::find($ticket->user_id);
+            $ticket->user->notify(new TicketUpdateNotification($ticket));
+        }
 
         if ($request->file('attachment')) {
             Storage::disk('public')->delete($ticket->attachment);
             $this->storeAttachment($request, $ticket);
         }
         return redirect(route('ticket.index'));
+        // $ticket->update($request->except('attachment'));
+
+        // // if ($request->has('status')) {
+        // //     // $user = User::find($ticket->user_id);
+        // //     $ticket->user->notify(new TicketUpdatedNotification($ticket));
+        // // }
+
+        // if ($request->file('attachment')) {
+        //     Storage::disk('public')->delete($ticket->attachment);
+        //     $this->storeAttachment($request, $ticket);
+        // }
+        // return redirect(route('ticket.index'));
     }
 
     /**
