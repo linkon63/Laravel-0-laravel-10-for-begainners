@@ -21,7 +21,7 @@ class AvatarController extends Controller
 
         // $path = $request->file('avatar')->store('avatars', 'public');
         $path = Storage::disk('public')->put('avatars', $request->file('avatar'));
-        dd($path);
+        // dd($path);
         // check there is previous image/avatar are there or not
         if ($oldAvatar = $request->user()->avatar) {
             // dd($request->user()->avatar);

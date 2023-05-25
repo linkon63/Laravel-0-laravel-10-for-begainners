@@ -20,10 +20,27 @@
 
             <div class="flex flex-col justify-center">
                 <a href="{{route('ticket.index')}}" class="ml-3 bg-white p-2 rounded">
-                <!-- <a href="/ticket/create" class="ml-3 bg-white p-2 rounded"> -->
+                    <!-- <a href="/ticket/create" class="ml-3 bg-white p-2 rounded"> -->
                     Support Ticket
                 </a>
             </div>
+
+            <div class="flex flex-col justify-center">
+                <form method="POST" action="{{ route('logout') }}" class="ml-3 bg-white p-2 rounded text-black">
+                    @csrf
+                    <div :href="route('logout')" onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </div>
+                </form>
+            </div>
+            <div class="flex flex-col justify-center">
+                <a href="{{route('profile.edit')}}" class=" ml-3 bg-white p-2 rounded text-black">
+                    {{ __('Profile') }}
+                </a>
+
+            </div>
+            <!-- Authentication -->
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
